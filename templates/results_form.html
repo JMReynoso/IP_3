@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Movies</title>
+    <script src="./script.js"></script>
+</head>
+<body>
+
+    <form>
+        Welcome, <?php echo $_SESSION["displayName"] ?>! <a onclick="return confirmLogout();" href="#">(logout)</a>
+        <br><br>
+        <h1>myMovies Xpress!</h1>
+        <br><br>
+        <?php echo sizeof($array); ?> movies found.<br><br>
+
+        <?php if (sizeof($array) != 0) { ?>
+
+        <table style="height:100%;">
+            <tr>
+                <th>Movie</th>
+                <th>Title</th>
+                <th>Add</th>
+            </tr>
+
+        <!-- for each item in search array, display image, title/year, add -->
+
+        <?php
+            for($i = 0; $i < sizeof($array); $i++){
+
+            $movieImage = $array[$i]['Poster'];
+            $movieTitle = $array[$i]['Title'];
+            $movieYear = $array[$i]['Year'];
+            $movieID = $array[$i]['imdbID'];
+            $movieLink = 'https://www.imdb.com/title/'.urlencode($movieID).'/';
+        ?>
+            <tr>
+                <th><img src="<?php echo $movieImage; ?>" alt="movie image"></th>
+                <th><a href="<?php echo $movieLink; ?>" target="_blank"><?php echo $movieTitle; ?> (<?php echo $movieYear ?>)</a></th>
+
+                <th><a href="javascript: addMovie('<?php echo $movieID; ?>');"> + </a></th>
+            </tr>
+           <?php }
+            }
+            ?>
+
+            <?php if (sizeof($array) == 0) { ?>
+                <button formaction="index.php">Cancel</button>
+            <?php } ?>
+        </table>
+
+    </form>
+</body>
+</html>
